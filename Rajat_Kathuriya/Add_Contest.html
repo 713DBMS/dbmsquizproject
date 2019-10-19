@@ -1,0 +1,169 @@
+<html>
+
+<head>
+<script>
+//var x = myFunction(4, 3);
+var x=0;
+
+function myFunction() {
+    var itm;
+	var cln;
+    var e = document.getElementById("type");
+    var str = e.options[e.selectedIndex].value;
+
+    //alert(str);
+
+    if (str==="MCSA")
+    {
+        itm = document.getElementById("MCSA");
+    }
+    if (str==="MCMA") 
+    {
+        itm = document.getElementById("MCMA");
+    }
+	if (str==="TF") 
+    {
+        itm = document.getElementById("TF");
+    }
+	if (str==="AA") 
+    {
+        itm = document.getElementById("AA");
+    }
+	cln = itm.cloneNode(true);
+	cln.id=x;
+	x++;
+    document.getElementById("parent").appendChild(cln);
+
+}
+</script>
+
+</head>
+<body> 
+   
+   
+   <div id="hel"></div> 
+   
+  <div id="parent">
+  </div>
+  
+  <div id="hide">
+  
+   <div id="MCSA">
+	<label>Enter Question</label>  
+	<br/>
+	<input type="text" id="Ques" name="Ques"/>
+	<br/>
+	
+      
+    <input type="radio" />
+	<label>A. </label>
+	<input type="text"/>
+	<br/>   
+    
+	<input type="radio" />
+	<label>B. </label>
+	<input type="text"/>
+	<br/>
+	
+	<input type="radio" />
+	<label>C. </label>
+	<input type="text"/>
+	<br/>
+	
+	<input type="radio" />
+	<label id="demo">D.</label>
+	<input type="text"/>
+	<br/>
+	<br/>
+	<br/>
+   </div>
+   	
+
+    <div id="MCMA">
+	<label>Enter Question</label>  
+	<br/>
+	<input type="text" id="Ques" name="Ques"/>
+	<br/>
+	
+      
+    <input type="checkbox" />
+	<label>A. </label>
+	<input type="text"/>
+	<br/>   
+    
+	<input type="checkbox" />
+	<label>B. </label>
+	<input type="text"/>
+	<br/>
+	
+	<input type="checkbox" />
+	<label>C. </label>
+	<input type="text"/>
+	<br/>
+	
+	<input type="checkbox" />
+	<label>D.</label>
+	<input type="text"/>
+	<br/>
+	<br/>
+	<br/>
+   </div>
+   
+   <div id="TF">
+	<label>Enter Question</label>  
+	<br/>
+	<input type="text" id="Ques" name="Ques"/>
+	<br/>
+	
+      
+    <input type="radio" />
+	<label>True </label>
+	
+	<br/>   
+    
+	<input type="radio" />
+	<label>False </label>
+	
+	<br/>
+	<br/>
+	<br/>
+   </div>
+
+   <div id="AA">
+	<label>Enter Question</label>  
+	<br/>
+	<input type="text" id="Ques" name="Ques"/>
+	<br/>
+	
+      
+    <label>Enter Answer  </label>
+	<br/>
+	<input type="text"/>
+	<br/>   
+    <br/>
+	<br/>
+   </div>   
+   
+   </div>
+   
+   
+   
+   
+   
+   
+   
+   <select id="type" style="width:160px">  
+    <option value="MCSA">Multiple Choice,Single Answer Question</option>
+    <option value="MCMA">Multiple Choice,Multiple Answer Question</option>	
+    <option value="TF">True/False Question</option>  
+    <option value="AA">Add Answer Type</option>  
+   </select> 
+   <Button onclick="myFunction()"> ADD NEW </Button>
+   
+<script>
+document.getElementById("hide").style.display = "none";
+</script>   
+
+</body>
+</html>
+</html>
