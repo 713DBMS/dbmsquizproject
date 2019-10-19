@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Register/Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+
+<div class="container">
+ 
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Register
+  </button>
+
+
+<! Register As Dialog>
+
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <h4 class="modal-title"> Register As: </h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+    <div class="modal-body">
+          <div class="container">
+          	<br />
+
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#Recruiter">
+    Recruiter
+  </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+  <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#Student">
+    Student
+  </button><br /><br />
+
+</div>
+</div>
+
+      <div class="modal-footer">  if already registered &nbsp;&nbsp;
+          <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#login">&nbsp;&nbsp;Login&nbsp;&nbsp;</button>
+        </div>
+        </div>
+   </div>
+   </div>
+   </div>   
+
+
+
+       
+ <! Recruiter Registration Dialog> 
+
+  
+  <div class="modal fade" id="Recruiter">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <h4 class="modal-title">Recruiter Registration</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        
+        <div class="modal-body">
+          <div class="container">
+
+  <form  method="post" id="register_form">
+ 
+
+    <div class="form-group">
+      <label for="organ">Organization:</label>
+      <input type="text" class="form-control" id="uname" placeholder="Enter Organization/Institution" name="uname" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required />
+    </div>
+
+       <div class="form-group">
+      <label for="pass">Password:</label>
+      <input type="password" class="form-control" id="pass" placeholder="Enter password" name="pass" required />
+      </div>
+
+         <div class="form-group">
+      <label for="pass">Confirm Password:</label>
+      <input type="password" class="form-control" id="_pass" placeholder="Re-enter password" name="_pass" required />
+      </div>
+  
+
+    <div class="form-group form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="remember" required /> I agree on <a href="tc.htm"> terms and conditions</a>
+      </label>
+    </div>
+    <input type="submit" name="submit" id="submit" value="&nbsp;Submit&nbsp;" class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="reset" class="btn btn-danger">&nbsp;&nbsp;Reset&nbsp;&nbsp;</button>
+  </form>
+</div>
+
+        </div>
+        
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#myModal">Back</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+ <! Student registration Dialog>
+
+  
+  <div class="modal fade" id="Student">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <h4 class="modal-title">Student Registration</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        
+        <div class="modal-body">
+          <div class="container">
+
+  <form  method="post" id="register_form">
+ 
+
+    <div class="form-group">
+      <label for="name">Username:</label>
+      <input type="text" class="form-control" id="uname" placeholder="Enter username" name="uname" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required />
+    </div>
+
+       <div class="form-group">
+      <label for="pass">Password:</label>
+      <input type="password" class="form-control" id="pass" placeholder="Enter password" name="pass" required />
+      </div>
+
+         <div class="form-group">
+      <label for="pass">Confirm Password:</label>
+      <input type="password" class="form-control" id="_pass" placeholder="Re-enter password" name="_pass" required />
+      </div>
+  
+
+    <div class="form-group form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="remember" required /> I agree on <a href="tc.htm"> terms and conditions</a>
+      </label>
+    </div>
+    <input type="submit" name="submit" id="submit" value="&nbsp;Submit&nbsp;" class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="reset" class="btn btn-danger">&nbsp;&nbsp;Reset&nbsp;&nbsp;</button>
+  </form>
+</div>
+
+        </div>
+        
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#myModal">Back</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+ <! Login Dialog >
+
+
+  <div class="modal fade" id="login">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+         <div class="modal-body">
+          <div class="container">
+
+        <div class="modal-header">
+          <h4 class="modal-title">User login</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+   <form action="/action_page.php">
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" id="pwd" placeholder="Enter Password" name="pwd" required>
+  </div>
+  <div class="form-group">
+    <label> Login As: </label>
+    <select class="form-control">
+    	<option> Recruiter </option>
+    	<option selected> Student </option>
+    </select>
+  </div>
+ <div class="form-group form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox"> Remember me
+    </label>
+  </div>
+  <input type="submit" value="&nbsp;&nbsp;Login&nbsp;&nbsp;" id="login" name="login" class="btn btn-success" />
+</form>
+</div>
+</div>
+
+   <div class="modal-footer"> 
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#resetpass">Reset Password</button>
+        </div>
+
+</div>
+</div>
+</div>
+  
+
+
+<! Password Reset Dialog>
+
+
+<div class="modal fade" id="resetpass">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+         <div class="modal-body">
+          <div class="container">
+
+        <div class="modal-header">
+          <h4 class="modal-title">Reset Password</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div><br />
+
+      <form action="/action_page.php">
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+  </div>
+
+ <input type="submit" value="&nbsp;Submit&nbsp;" id="submit" name="submit" class="btn btn-success" /><br />
+</form>
+</div>
+</div>
+
+<div class="modal-footer"> 
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#login">Back</button>
+        </div>
+
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
