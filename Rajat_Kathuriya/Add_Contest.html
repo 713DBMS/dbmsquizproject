@@ -5,36 +5,135 @@
 //var x = myFunction(4, 3);
 var x=0;
 
+var Ques = {
+  Question: "",
+  o1: "",
+  o2: "",
+  o3: "",
+  o4: "",
+  ans: "",
+  type: "",
+};
+
+var list=[];
+var e = document.getElementById("type");
 function myFunction() {
     var itm;
 	var cln;
     var e = document.getElementById("type");
     var str = e.options[e.selectedIndex].value;
-
+    var q={
+       Question: "",
+       o1: "",
+       o2: "",
+       o3: "",
+       o4: "",
+       ans: "",
+       type: ""
+    };
+	q.type=str;
     //alert(str);
 
-    if (str==="MCSA")
-    {
+    if (str=="MCSA")
+    {   alert("hello");
         itm = document.getElementById("MCSA");
+		
     }
-    if (str==="MCMA") 
+    if (str=="MCMA") 
     {
         itm = document.getElementById("MCMA");
     }
-	if (str==="TF") 
+	if (str=="TF") 
     {
         itm = document.getElementById("TF");
     }
-	if (str==="AA") 
+	if (str=="AA") 
     {
         itm = document.getElementById("AA");
     }
 	cln = itm.cloneNode(true);
 	cln.id=x;
 	x++;
+	list.push(q);
     document.getElementById("parent").appendChild(cln);
 
 }
+
+
+
+
+
+function submit(){
+
+  for(var i=0;i<x;i++){
+    //alert('here'+i);   
+	itm = document.getElementById(i);
+
+	list[i].Question=itm.querySelector("#Ques").value;
+	list[i].o1=itm.querySelector("#o1").value;
+	list[i].o2=itm.querySelector("#o2").value;
+	
+    if (list[i].type=="MCSA")
+    {
+    	list[i].o3=itm.querySelector("#o3").value;
+	    list[i].o4=itm.querySelector("#o4").value;
+	
+	}
+    if (list[i].type=="MCMA") 
+    {
+        list[i].o3=itm.querySelector("#o3").value;
+	    list[i].o4=itm.querySelector("#o4").value;
+	
+    }
+	if (list[i].type=="TF") 
+    {
+        
+    }
+	if (list[i].type=="AA") 
+    {
+        list[i].ans=itm.querySelector("#ans").value;
+    }
+	
+  }
+
+
+var op=document.getElementById("op");
+var ans="";   
+for(var i=0;i<x;i++){
+    ans+=list[i].Question+"<br/>";
+	ans+=list[i].o1+"<br/>";
+	ans+=list[i].o2+"<br/>";
+	//alert("Now");
+	
+    if (list[i].type=="MCSA")
+    {
+    	ans+=list[i].o3+"<br/>";
+	    ans+=list[i].o4+"<br/>";
+	
+	}
+    if (list[i].type==="MCMA") 
+    {
+        ans+=list[i].o3+"<br/>";
+	    ans+=list[i].o4+"<br/>";
+	
+    }
+	if (list[i].type==="TF") 
+    {
+        
+    }
+	if (list[i].type==="AA") 
+    {
+        ans+=list[i].ans+"<br/>";
+    }
+}
+op.innerHTML=ans;
+   
+   
+   
+}
+
+
+
 </script>
 
 </head>
@@ -57,22 +156,22 @@ function myFunction() {
       
     <input type="radio" />
 	<label>A. </label>
-	<input type="text"/>
+	<input type="text" id="o1"/>
 	<br/>   
     
 	<input type="radio" />
 	<label>B. </label>
-	<input type="text"/>
+	<input type="text" id="o2"/>
 	<br/>
 	
 	<input type="radio" />
 	<label>C. </label>
-	<input type="text"/>
+	<input type="text" id="o3"/>
 	<br/>
 	
 	<input type="radio" />
-	<label id="demo">D.</label>
-	<input type="text"/>
+	<label id="demo" >D.</label>
+	<input type="text" id="o4"/>
 	<br/>
 	<br/>
 	<br/>
@@ -88,22 +187,22 @@ function myFunction() {
       
     <input type="checkbox" />
 	<label>A. </label>
-	<input type="text"/>
+	<input type="text" id="o1"/>
 	<br/>   
     
 	<input type="checkbox" />
 	<label>B. </label>
-	<input type="text"/>
+	<input type="text" id="o2"/>
 	<br/>
 	
 	<input type="checkbox" />
 	<label>C. </label>
-	<input type="text"/>
+	<input type="text" id="o3"/>
 	<br/>
 	
 	<input type="checkbox" />
 	<label>D.</label>
-	<input type="text"/>
+	<input type="text" id="o4"/>
 	<br/>
 	<br/>
 	<br/>
@@ -116,12 +215,12 @@ function myFunction() {
 	<br/>
 	
       
-    <input type="radio" />
+    <input type="radio" id="o1"/>
 	<label>True </label>
 	
 	<br/>   
     
-	<input type="radio" />
+	<input type="radio" id="o2"/>
 	<label>False </label>
 	
 	<br/>
@@ -138,7 +237,7 @@ function myFunction() {
       
     <label>Enter Answer  </label>
 	<br/>
-	<input type="text"/>
+	<input type="text" id="ans"/>
 	<br/>   
     <br/>
 	<br/>
@@ -160,8 +259,17 @@ function myFunction() {
    </select> 
    <Button onclick="myFunction()"> ADD NEW </Button>
    
+   
+   
+   <Button onclick="submit()"> Submit </Button>
+   
+   <label id="op">Enter Answer  </label>
+   
 <script>
 document.getElementById("hide").style.display = "none";
+
+
+
 </script>   
 
 </body>
