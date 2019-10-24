@@ -1,6 +1,9 @@
 <html>
 
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  
+<link rel="stylesheet" href="mycss.css">
 <script>
 //var x = myFunction(4, 3);
 var x=0;
@@ -35,7 +38,7 @@ function myFunction() {
     //alert(str);
 
     if (str=="MCSA")
-    {   alert("hello");
+    {  
         itm = document.getElementById("MCSA");
 		
     }
@@ -53,6 +56,7 @@ function myFunction() {
     }
 	cln = itm.cloneNode(true);
 	cln.id=x;
+	cln.name=x;
 	x++;
 	list.push(q);
     document.getElementById("parent").appendChild(cln);
@@ -126,9 +130,10 @@ for(var i=0;i<x;i++){
         ans+=list[i].ans+"<br/>";
     }
 }
+
 op.innerHTML=ans;
-   
-   
+//var href=window.location.href;
+window.location.href = window.location.href.replace(/[^/]*$/, '')+'new.php?js_test='+ans;
    
 }
 
@@ -136,142 +141,34 @@ op.innerHTML=ans;
 
 </script>
 
+<?php
+$var=$_GET["js_test"];
+ $someArray = json_decode($var, true);
+ $count=1;
+ foreach ($someArray as $key => $value) {
+    echo $count.". ".$value["Question"]. "<br>";
+	if($value["type"]=="MCSA" || $value["type"]=="MCMA"){
+	echo "(a). ".$value["o1"] . "<br>";
+	echo "(b). ".$value["o2"] . "<br>";
+	echo "(c). ".$value["o3"] . "<br>";
+	echo "(d). ".$value["o4"] . "<br>";
+	}
+	echo "Ans- ".$value["answ"] . "<br><br>";
+	$count++;
+  }
+
+ 
+ print_r($someArray);  
+echo $var;
+//$_SESSION['varname'] = ans;
+?>
+
+
 </head>
 <body> 
    
    
-   <div id="hel"></div> 
-   
-  <div id="parent">
-  </div>
-  
-  <div id="hide">
-  
-   <div id="MCSA">
-	<label>Enter Question</label>  
-	<br/>
-	<input type="text" id="Ques" name="Ques"/>
-	<br/>
-	
-      
-    <input type="radio" />
-	<label>A. </label>
-	<input type="text" id="o1"/>
-	<br/>   
-    
-	<input type="radio" />
-	<label>B. </label>
-	<input type="text" id="o2"/>
-	<br/>
-	
-	<input type="radio" />
-	<label>C. </label>
-	<input type="text" id="o3"/>
-	<br/>
-	
-	<input type="radio" />
-	<label id="demo" >D.</label>
-	<input type="text" id="o4"/>
-	<br/>
-	<br/>
-	<br/>
-   </div>
-   	
-
-    <div id="MCMA">
-	<label>Enter Question</label>  
-	<br/>
-	<input type="text" id="Ques" name="Ques"/>
-	<br/>
-	
-      
-    <input type="checkbox" />
-	<label>A. </label>
-	<input type="text" id="o1"/>
-	<br/>   
-    
-	<input type="checkbox" />
-	<label>B. </label>
-	<input type="text" id="o2"/>
-	<br/>
-	
-	<input type="checkbox" />
-	<label>C. </label>
-	<input type="text" id="o3"/>
-	<br/>
-	
-	<input type="checkbox" />
-	<label>D.</label>
-	<input type="text" id="o4"/>
-	<br/>
-	<br/>
-	<br/>
-   </div>
-   
-   <div id="TF">
-	<label>Enter Question</label>  
-	<br/>
-	<input type="text" id="Ques" name="Ques"/>
-	<br/>
-	
-      
-    <input type="radio" id="o1"/>
-	<label>True </label>
-	
-	<br/>   
-    
-	<input type="radio" id="o2"/>
-	<label>False </label>
-	
-	<br/>
-	<br/>
-	<br/>
-   </div>
-
-   <div id="AA">
-	<label>Enter Question</label>  
-	<br/>
-	<input type="text" id="Ques" name="Ques"/>
-	<br/>
-	
-      
-    <label>Enter Answer  </label>
-	<br/>
-	<input type="text" id="ans"/>
-	<br/>   
-    <br/>
-	<br/>
-   </div>   
-   
-   </div>
-   
-   
-   
-   
-   
-   
-   
-   <select id="type" style="width:160px">  
-    <option value="MCSA">Multiple Choice,Single Answer Question</option>
-    <option value="MCMA">Multiple Choice,Multiple Answer Question</option>	
-    <option value="TF">True/False Question</option>  
-    <option value="AA">Add Answer Type</option>  
-   </select> 
-   <Button onclick="myFunction()"> ADD NEW </Button>
-   
-   
-   
-   <Button onclick="submit()"> Submit </Button>
-   
-   <label id="op">Enter Answer  </label>
-   
-<script>
-document.getElementById("hide").style.display = "none";
-
-
-
-</script>   
-
+ 
 </body>
 </html>
 </html>
