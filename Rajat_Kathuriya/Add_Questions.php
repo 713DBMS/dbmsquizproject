@@ -1,9 +1,55 @@
 <html>
 
 <head>
+<link rel="stylesheet" type="text/css" href="css/global.css">
+<link rel="stylesheet" type="text/css" href="css/add_questions.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  
-<link rel="stylesheet" href="mycss.css">
+
+ <link rel="stylesheet" type="text/css" href="css/userhome.css">
+   
+
+
+<?php
+require_once("config.php");
+
+$name=$_POST['tname'];
+$s_date_time=$_POST['s_date_time'];
+$e_date_time=$_POST['e_date_time'];
+$desc=$_POST['desc'];
+$image=$_POST['image'];
+
+$sql="insert into add_contest (name,start_datetime,end_datetime,description,image,rid) values('".$name."','".$s_date_time."','".$e_date_time."','".$desc."','".$image."','1')";
+
+if(!$result = $conn->query($sql)){
+   die('There was an error running the query [' . $conn->error . ']');
+}
+else{
+	$sql="select id from add_contest where name='".$name."'";
+	$result = $conn->query($sql);
+	$row=$result->fetch_assoc();
+	$sql="create table ".$row['id']."_question (id int not null auto_increment,question text not null,type text not null,o1 text not null,
+o2 text not null,o3 text not null,o4 text not null,ans text not null,primary key(id))";
+    
+	if(!$result = $conn->query($sql)){
+         die('There was an error running the query [' . $conn->error . ']');
+}
+}
+
+?>
+
+<script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+</script>
+<script> 
+$(function(){
+  $("#header").load("header.html"); 
+  $("#footer").load("footer.html"); 
+});
+</script>
+
+
 <script>
 //var x = myFunction(4, 3);
 var x=0;
@@ -48,9 +94,19 @@ function myFunction() {
 	cln = itm.cloneNode(true);
 	cln.id=x;
 	cln.name=x;
+	if (str=="MCSA")
+    {  
+        cln.querySelector("#anso1").name='mcq'+x;
+		cln.querySelector("#anso2").name='mcq'+x;
+		cln.querySelector("#anso3").name='mcq'+x;
+		cln.querySelector("#anso4").name='mcq'+x;
+		
+    }
+    
+	
 	x++;
 	list.push(q);
-    document.getElementById("parent").appendChild(cln);
+    document.getElementById("inside").appendChild(cln);
 
 }
 
@@ -203,18 +259,27 @@ window.location.href = window.location.href.replace(/[^/]*$/, '')+'preview.php?j
 
 </script>
 
-<?php
-//$var=5;
-//echo var;
-//$_SESSION['varname'] = ans;
-?>
-
-
-</head>
-<body> 
-   
-   
  
+</head>
+
+
+
+<body>
+   <div id="header"></div>
+ 
+   
+	<div id="headnam" style="background : #f7f7f7;">
+	<label  style="font-size:30px;
+	color:black;
+	font-family: 'Times New Roman', Times, serif;
+	font-style: normal;
+	font-weight:normal;
+	margin-left:20px;
+	margin-top:15px;
+	margin-bottom:15px;">Add Questions</label>
+  </div>	
+   
+  
    
    <div id="hel"></div> 
    
@@ -305,13 +370,13 @@ window.location.href = window.location.href.replace(/[^/]*$/, '')+'preview.php?j
    <div id="AA">
 	<label>Enter Question</label>  
 	<br/>
-	<input type="text" class="subtext" id="Ques" name="Ques"/>
+	<input type="text" class="maintext" id="Ques" name="Ques"/>
 	<br/>
 	
       
     <label>Enter Answer  </label>
 	<br/>
-	<input type="text" class="subtext" id="ans"/>
+	<input type="text" class="maintext" id="ans"/>
 	<br/>   
     <br/>
 	<br/>
@@ -320,30 +385,36 @@ window.location.href = window.location.href.replace(/[^/]*$/, '')+'preview.php?j
    </div>
    
   
- <form method="get" name="form" action="destination.php">  
+
   <div id="parent">
+     <div id="inside">
+	 </div>
+	 
+	 <div id="inside2">
+	     <select id="type" class="subtext" style="width:160px">  
+              <option value="MCSA">Multiple Choice,Single Answer Question</option>
+              <option value="MCMA">Multiple Choice,Multiple Answer Question</option>	
+              <option value="TF">True/False Question</option>  
+              <option value="AA">Add Answer Type</option>  
+        </select> 
+        <br/>
+        <br/>
+   
+        <div width="50%">
+             <Button onclick="myFunction()" class="btn btn-primary"> ADD NEW </Button>
+             <Button onclick="submit()" class="btn btn-primary"> Submit </Button>
+        </div>
+   
+	 </div>
   </div>
  
- </form>  
+  
    
    
    
    
    
    
-   <select id="type" class="subtext" style="width:160px">  
-    <option value="MCSA">Multiple Choice,Single Answer Question</option>
-    <option value="MCMA">Multiple Choice,Multiple Answer Question</option>	
-    <option value="TF">True/False Question</option>  
-    <option value="AA">Add Answer Type</option>  
-   </select> 
-   <br/>
-   <br/>
-   <Button onclick="myFunction()" class="btn btn-primary"> ADD NEW </Button>
-   
-   
-   
-   <Button onclick="submit()" class="btn btn-primary"> Submit </Button>
    
    <label id="op">  </label>
    
@@ -353,6 +424,9 @@ document.getElementById("hide").style.display = "none";
 
 
 </script>   
+ <footer>
+<div id="footer"></div>
+</footer>
 
 </body>
 
