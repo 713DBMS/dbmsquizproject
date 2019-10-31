@@ -1,40 +1,110 @@
 <?php
 
 session_start();
+
+date_default_timezone_set('Asia/Kolkata');
+$currentdatetime=date_create(date('Y-m-d'));
+$result = $currentdatetime->format('Y-m-d h:i');
+
+
+
+
+
+
+// Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
-        
-require_once("config.php");
+  $target_dir = "C:/xampp/htdocs/Quizzer/uploads/";
+$target_file = $target_dir . basename($_FILES["image"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $check = getimagesize($_FILES["image"]["tmp_name"]);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
 
-$name=$_POST['tname'];
-$s_date_time=$_POST['s_date_time'];
-$e_date_time=$_POST['e_date_time'];
-$desc=$_POST['desc'];
-$image=$_POST['image'];
+// Check if file already exists
+if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+}
+// Check file size
+if ($_FILES["image"]["size"] > 500000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    $uploadOk = 0;
+}
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
 
-$sql="insert into add_contest (name,start_datetime,end_datetime,description,image,rid) values('".$name."','".$s_date_time."','".$e_date_time."','".$desc."','".$image."','1')";
+}
 
-if(!$result = $conn->query($sql)){
+
+
+
+
+$cid=-1;
+if(isset($_POST["submit"])) {
+
+  require_once("config.php");
+
+  $name=$_POST['tname'];
+  $s_date_time=$_POST['s_date_time'];
+  $e_date_time=$_POST['e_date_time'];
+  $desc=$_POST['desc'];
+  //$image=$_POST['image'];
+
+  $sql="insert into add_contest (name,start_datetime,end_datetime,description,image,rid) values('".$name."','".$s_date_time."','".$e_date_time."','".$desc."','".$_FILES["image"]["name"]."','1')";
+
+  if(!$result = $conn->query($sql)){
    die('There was an error running the query [' . $conn->error . ']');
-}
-else{
-	$sql="select id from add_contest where name='".$name."'";
-	$result = $conn->query($sql);
-	$row=$result->fetch_assoc();
-	$sql="create table ".$row['id']."_question (id int not null auto_increment,question text not null,type text not null,o1 text not null,
-o2 text not null,o3 text not null,o4 text not null,ans text not null,primary key(id))";
-    
-	
-	
-	if(!$result = $conn->query($sql))
-         die('There was an error running the query [' . $conn->error . ']');
-	else  
-         echo '<script>window.location.href = window.location.href.replace(/[^/]*$/, "")+"Edit_Questions.php?js_test=[]&submit=true"</script>';		
-
-}
+ }
+ else{
+   $sql="select id from add_contest where name='".$name."'";
+   $result = $conn->query($sql);
+   $row=$result->fetch_assoc();
+   $sql="create table ".$row['id']."_question (id int not null auto_increment,question text not null,type text not null,o1 text not null,
+   o2 text not null,o3 text not null,o4 text not null,ans text not null,primary key(id))";
 
 
-	
-	
+
+   if(!$result = $conn->query($sql))
+     die('There was an error running the query [' . $conn->error . ']');
+   else { 
+     $sql="create table ".$row['id']."_users (UserId int not null auto_increment,UserName varchar(255) not null,UserEmail varchar(255) not null,CollegeName text not null,
+     Marks int,Rank int,primary key(UserId))";
+     if(!$result = $conn->query($sql))
+       die('There was an error running the query [' . $conn->error . ']');
+     else{
+
+       $cid=$row['id'];
+       echo "here".$cid;
+
+       echo '<script>window.location.href = window.location.href.replace(/[^/]*$/, "")+"Edit_Questions.php?js_test=[]&contestid='.$cid.'&submit=true";</script>';
+     }
+   }
+ }
+
+
+
+
  
 }
 
@@ -44,107 +114,204 @@ o2 text not null,o3 text not null,o4 text not null,ans text not null,primary key
 <html>
 
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/userhome.css">
-<link rel="stylesheet" type="text/css" href="css/add_contest.css">
-  
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-   
-<link rel="stylesheet" href="css/global.css">
 
- 
-<?php
-//$var=5;
-//echo var;
-//$_SESSION['varname'] = ans;
-?>
-<script
-    src="https://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous">
+  <link href="./boot/boot2/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link href="./boot/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/userhome.css">
+  <link rel="stylesheet" type="text/css" href="css/add_contest.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/global.css">
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous">
 </script>
 <script> 
-$(function(){
-  $("#header").load("header.html"); 
-  $("#footer").load("footer.html"); 
-});
+  $(function(){
+    $("#header").load("header.html"); 
+    $("#footer").load("footer.html"); 
+  });
 </script> 
+
+<script> 
+  function pagesubmit(){
+   alert("here");
+
+ }
+</script> 
+
+
+
+
 </head>
 
 
 
 <body>
-<div id="header"></div>
+  <div id="header"></div>
 
 
-   <div id="hel"></div> 
-   
-   
-<?php
-require_once("config.php");
-?>
-   
-   
+  <div id="hel"></div> 
+
+
+  <?php
+  require_once("config.php");
+  ?>
+
+
   <div  style="background : #f7f7f7;">
-	<label style="font-size:30px;
-	color:black;
-	font-family: 'Times New Roman', Times, serif;
-	font-style: normal;
-	font-weight:normal;
-	margin-left:20px;
-	margin-top:15px;
-	margin-bottom:15px;">Add Contest</label>
-  </div>	
-   
-   
-   
-  
-  <div id="parent" >
-	
-   <div id="inside">
-	
-	<form  method="post" id="register_form" action="Add_Contest.php">
+   <label style="font-size:30px;
+   color:black;
+   font-family: 'Times New Roman', Times, serif;
+   font-style: normal;
+   font-weight:normal;
+   margin-left:20px;
+   margin-top:15px;
+   margin-bottom:15px;">Add Contest</label>
+ </div>	
+
+
+ <div class="container">
+
+
+
+ </div>
+
+
+
+
  
+ <div id="parent" >
 
-    <div class="form-group">
-      <label for="organ">Test Name:</label>
-      <input type="text" class="form-control" id="tname" placeholder="Enter Test Name" name="tname" required>
-    </div>
+   <div id="inside">
 
-    <div class="form-group">
-      <label for="email">Start Date and Time:</label>
-      <input type="datetime-local" class="form-control" id="s_date_time" placeholder="Enter Start Date and Time" name="s_date_time" required />
-    </div>
+     <form  method="post" id="register_form" action="Add_Contest.php" onsubmit="return validate()" enctype="multipart/form-data" >
 
-       <div class="form-group">
-      <label for="pass">End Date and Time:</label>
-      <input type="datetime" class="form-control" id="e_date_time" placeholder="Enter End Date and Time" name="e_date_time" required />
+
+      <div class="form-group">
+        <label for="organ">Test Name:</label>
+        <input type="textarea" class="form-control" id="tname" placeholder="Enter Test Name" name="tname" required>
       </div>
-	  
-	  <div class="form-group">
+
+      <div class="form-group">
+        <label for="email">Start Date and Time:</label>
+        <div class="controls input-append date form_datetime"  id="sdate"  data-date="1979-09-16T05:25:07Z" data-date-format="yyyy-mm-dd hh:ii" 
+        data-link-field="dtp_input1">
+        <input size="20" type="text" style="height: 30px" value="" required onkeypress="return false;"  >
+        <span class="add-on" style="height: 30px"><i class="icon-th"></i></span>
+      </div>
+      <input type="text" id="s_date_time" name="s_date_time" value="" hidden />
+    </div>
+
+    <div class="form-group">
+      <label for="pass">End Date and Time:</label>
+      <div class="controls input-append date form_datetime2" id="edate" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" 
+      data-link-field="dtp_input1">
+      <input style="height: 30px" size="20" type="text"  value="" required onkeypress="return false;" >
+      <span class="add-on" style="height: 30px"><i class="icon-th"></i></span>
+    </div>
+    <input type="text" id="e_date_time" name="e_date_time" value="" hidden /></div>
+
+    <div class="form-group">
       <label for="pass">Description:</label>
       <input type="textarea" class="form-control" id="desc" placeholder="Enter Description" name="desc" required />
-      </div>
+    </div>
 
-         <div class="form-group">
+
+
+    <div class="form-group">
       <label for="pass">Image:</label>
-      <input type="file" class="form-control" id="image" placeholder="Select Image" name="image" required />
-      </div>
-  
+      <input type="file" style="height: 45px" class="form-control" id="image"  name="image" required />
+    </div>
+
+
 
     <div class="form-group form-check">
       <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" name="remember" required />   I agree on <a href="tc.htm"> terms and conditions</a>
+        <input class="form-check-input" type="checkbox" name="remember" required />   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I agree on <a href="tc.htm"> terms and conditions</a>
       </label>
     </div>
-    <input type="submit" name="submit" id="submit" value="&nbsp;Submit&nbsp;" class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+    <input type="submit"  name="submit" id="submit" value="&nbsp;Submit&nbsp;" class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button type="reset" class="btn btn-danger">&nbsp;&nbsp;Reset&nbsp;&nbsp;</button>
+
+
   </form>
 
-   </div>
-  </div>
-   
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="./boot/boot2/jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./boot/boot2/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./boot/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./boot/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+
+
+
+<script type="text/javascript">
+
+  $(".form_datetime").datetimepicker({
+    format: "dd MM yyyy - hh:ii",
+    linkField: "s_date_time",
+    linkFormat: "yyyy-mm-dd hh:ii",
+    autoclose: true,
+        //todayBtn: true,
+        startDate: "<?php echo $result ?>",
+        minuteStep: 5
+      });
+	//var x='2102-12-03 04:00';//document.getElementById("s_date_time").value;
+	$(".form_datetime2").datetimepicker({
+		
+    format: "dd MM yyyy - hh:ii",
+    linkField: "e_date_time",
+    linkFormat: "yyyy-mm-dd hh:ii",
+    autoclose: true,
+        //todayBtn: true,
+        startDate: "<?php echo $result ?>",
+        minuteStep: 5
+      });
+    </script>     
+
+    <script>
+
+      function validate(){
+        var start=document.getElementById("s_date_time").value;
+        var end=document.getElementById("e_date_time").value;
+	//alert(x);
+	//alert(x.substr(0,4)+" "+x.substr(5,2)+" "+x.substr(8,2)+" "+x.substr(11,2)+" "+x.substr(14,2));
+	var date1 = new Date(parseInt(start.substr(0,4),10),parseInt(start.substr(5,2),10),parseInt(start.substr(8,2),10)
+   ,parseInt(start.substr(11,2),10),parseInt(start.substr(14,2),10)); 
+  var date2 = new Date(parseInt(end.substr(0,4),10),parseInt(end.substr(5,2),10),parseInt(end.substr(8,2),10)
+   ,parseInt(end.substr(11,2),10),parseInt(end.substr(14,2),10));
+// the following is to handle cases where the times are on the opposite side of
+// midnight e.g. when you want to get the difference between 9:00 PM and 5:00 AM
+
+if (date2 < date1) {
+  alert("Please Select a valid Date time range hello");
+  return false;
+}
+else{
+
+}
+}
+</script>
+
 
 <div id="footer"></div>
 
@@ -152,5 +319,4 @@ require_once("config.php");
 
 </body>
 
-</html>
 </html>
